@@ -1,5 +1,6 @@
 import {FC} from 'react';
 import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
+import FormInput from '../components/FormInput';
 
 interface Props {}
 
@@ -7,18 +8,12 @@ const SignIn: FC<Props> = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Email</Text>
-          <TextInput style={styles.textInput} placeholder="email@example.com" />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Email</Text>
-          <TextInput style={styles.textInput} placeholder="email@example.com" />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Email</Text>
-          <TextInput style={styles.textInput} placeholder="email@example.com" />
-        </View>
+        <FormInput label="Email" placeholder="email@example.com" />
+        <FormInput
+          label="Password"
+          placeholder="*********"
+          secureTextEntry={true}
+        />
       </View>
     </SafeAreaView>
   );
@@ -31,18 +26,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-  },
-  inputContainer: {
-    padding: 10,
-    borderRadius: 8,
-    backgroundColor: '#dedede',
-  },
-  textInput: {
-    fontSize: 20,
-  },
-  inputLabel: {
-    fontSize: 14,
-    color: 'rgba(0, 0, 0, 0.6)',
+    gap: 20,
   },
 });
 
