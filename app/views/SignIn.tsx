@@ -1,13 +1,7 @@
 import {FC} from 'react';
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import FormInput from '../components/FormInput';
+import PrimaryButton from '../components/PrimaryButton';
 
 interface Props {}
 
@@ -28,7 +22,12 @@ const SignIn: FC<Props> = () => {
           autoCapitalize="none"
         />
 
-        <Button title="Log In" />
+        <PrimaryButton
+          title="Log In"
+          onPress={() => {
+            console.log('');
+          }}
+        />
       </View>
     </SafeAreaView>
   );
