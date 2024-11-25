@@ -3,8 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import FormContainer from '../components/FormContainer';
 import FormInput from '../components/FormInput';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {AuthStackNavigator} from '../../App';
-
+import {AuthStackNavigator} from '../navigation/AuthNavigator';
 interface Props {}
 
 const SignUp: FC<Props> = () => {
