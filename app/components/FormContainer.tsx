@@ -6,6 +6,7 @@ interface Props {
   children: ReactNode;
   btnTitle?: string;
   navLinkTitle?: string;
+  onLinkPress?(): void;
   onSubmit?(): void;
 }
 
@@ -13,6 +14,7 @@ const FormContainer: FC<Props> = ({
   children,
   btnTitle,
   navLinkTitle,
+  onLinkPress,
   onSubmit,
 }) => {
   return (
@@ -28,7 +30,9 @@ const FormContainer: FC<Props> = ({
         <PrimaryButton title={btnTitle} onPress={onSubmit} />
 
         <View style={styles.navLinkContainer}>
-          <Text style={styles.navLink}>{navLinkTitle}</Text>
+          <Text onPress={onLinkPress} style={styles.navLink}>
+            {navLinkTitle}
+          </Text>
         </View>
       </View>
     </SafeAreaView>

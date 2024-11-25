@@ -1,6 +1,7 @@
 import {FC, useState} from 'react';
 import FormInput from '../components/FormInput';
 import FormContainer from '../components/FormContainer';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {}
 
@@ -9,9 +10,15 @@ const SignIn: FC<Props> = () => {
     email: '',
     password: '',
   });
+  const navigation = useNavigation();
 
   return (
-    <FormContainer btnTitle="Sign In" navLinkTitle="Don't have an account?">
+    <FormContainer
+      onLinkPress={() => {
+        navigation.navigate('SignUp');
+      }}
+      btnTitle="Sign In"
+      navLinkTitle="Don't have an account?">
       <FormInput
         label="Email"
         placeholder="email@example.com"
