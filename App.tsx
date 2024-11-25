@@ -5,7 +5,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createStaticNavigation} from '@react-navigation/native';
 
 interface Props {}
-const AuthStack = createStackNavigator({
+
+export type AuthStackNavigator = {
+  SignIn: undefined;
+  SignUp: undefined;
+};
+
+const AuthStack = createStackNavigator<AuthStackNavigator>({
   screens: {
     SignIn,
     SignUp,

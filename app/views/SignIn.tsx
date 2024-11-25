@@ -1,7 +1,8 @@
 import {FC, useState} from 'react';
 import FormInput from '../components/FormInput';
 import FormContainer from '../components/FormContainer';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {AuthStackNavigator} from '../../App';
 
 interface Props {}
 
@@ -10,7 +11,7 @@ const SignIn: FC<Props> = () => {
     email: '',
     password: '',
   });
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<AuthStackNavigator>>();
 
   return (
     <FormContainer

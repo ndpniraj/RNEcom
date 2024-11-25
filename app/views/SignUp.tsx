@@ -2,7 +2,8 @@ import {FC, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import FormContainer from '../components/FormContainer';
 import FormInput from '../components/FormInput';
-import {useNavigation} from '@react-navigation/native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {AuthStackNavigator} from '../../App';
 
 interface Props {}
 
@@ -12,7 +13,7 @@ const SignUp: FC<Props> = () => {
     email: '',
     password: '',
   });
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<AuthStackNavigator>>();
 
   return (
     <FormContainer
