@@ -18,6 +18,9 @@ const SignIn: FC<Props> = () => {
       onLinkPress={() => {
         navigation.navigate('SignUp');
       }}
+      onSubmit={() => {
+        navigation.navigate('OTPField');
+      }}
       btnTitle="Sign In"
       navLinkTitle="Don't have an account?">
       <FormInput
