@@ -7,6 +7,7 @@ import {errorType} from './SignUp';
 import axios, {AxiosError} from 'axios';
 import client from '../api/client';
 import ErrorMessage from '../components/ErrorMessage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {}
 
@@ -24,7 +25,7 @@ const SignIn: FC<Props> = () => {
     setErrors({});
     try {
       const {data} = await client.post(`/auth/sign-in`, signInInfo);
-      console.log('api response: ', data);
+      await AsyncStorage.setItem('auth_token', data.token);
       navigation.navigate('Home', {profile: data.profile});
     } catch (error) {
       if (error instanceof AxiosError) {
