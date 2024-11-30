@@ -25,6 +25,7 @@ const SignIn: FC<Props> = () => {
     try {
       const {data} = await client.post(`/auth/sign-in`, signInInfo);
       console.log('api response: ', data);
+      navigation.navigate('Home', {profile: data.profile});
     } catch (error) {
       if (error instanceof AxiosError) {
         // this is the error coming from api
