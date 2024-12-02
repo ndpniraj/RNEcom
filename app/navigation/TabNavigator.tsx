@@ -5,21 +5,42 @@ import Fav from '../views/Fav';
 import Profile from '../views/Profile';
 import {createStaticNavigation} from '@react-navigation/native';
 import {Text} from 'react-native';
+import Icon from '@react-native-vector-icons/ant-design';
 
 const Tabs = createBottomTabNavigator({
   screens: {
     Home: {
       screen: Home,
       options: {
-        tabBarIcon({}) {
-          return <Text>H</Text>;
+        tabBarIcon({size, color}) {
+          return <Icon name="home" size={size} color={color} />;
         },
-        tabBarBadge: 9,
       },
     },
-    Cart,
-    Fav,
-    Profile,
+    Cart: {
+      screen: Cart,
+      options: {
+        tabBarIcon({size, color}) {
+          return <Icon name="shopping-cart" size={size} color={color} />;
+        },
+      },
+    },
+    Fav: {
+      screen: Fav,
+      options: {
+        tabBarIcon({size, color}) {
+          return <Icon name="heart" size={size} color={color} />;
+        },
+      },
+    },
+    Profile: {
+      screen: Profile,
+      options: {
+        tabBarIcon({size, color}) {
+          return <Icon name="user" size={size} color={color} />;
+        },
+      },
+    },
   },
 });
 
