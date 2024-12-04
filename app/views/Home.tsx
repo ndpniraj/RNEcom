@@ -8,12 +8,12 @@ type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
 const Home: FC<Props> = ({route}) => {
   const authContext = useAuth();
-  console.log(authContext);
+
   return (
     <View style={styles.container}>
       <Text>Home</Text>
-      {/* <Text>Profile {name}</Text>
-      <Text>Profile {email}</Text> */}
+      <Text>Profile {authContext.profile?.name}</Text>
+      <Text>Profile {authContext.profile?.email}</Text>
     </View>
   );
 };
