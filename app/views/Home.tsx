@@ -11,20 +11,9 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {AuthStackNavigator} from '../navigation/AuthNavigator';
 import {useAuth} from '../context/AuthProvider';
 import client from '../api/client';
+import ProductCard, {offset, Product} from '../components/ProductCard';
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
-
-type Product = {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  poster: string;
-  price: {
-    mrp: number;
-    sale: number;
-  };
-};
 
 const Home: FC<Props> = ({route}) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -47,21 +36,10 @@ const Home: FC<Props> = ({route}) => {
   return (
     <FlatList
       data={products}
+      contentContainerStyle={styles.container}
       // horizontal
       renderItem={({item: product}) => {
-        return (
-          <View>
-            {/* <Image source={require('../source/img.png')} /> */}
-            <Image
-              source={{uri: product.poster}}
-              style={{width: 300, height: 200}}
-            />
-            <Text>{product.title}</Text>
-            <Text>{product.description}</Text>
-            <Text>{product.price.mrp}</Text>
-            <Text>{product.price.sale}</Text>
-          </View>
-        );
+        return <ProductCard product={product} />;
       }}
       keyExtractor={product => product.id.toString()}
     />
@@ -69,7 +47,10 @@ const Home: FC<Props> = ({route}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    paddingHorizontal: offset,
+    gap: 20,
+  },
 });
 
 export default Home;
