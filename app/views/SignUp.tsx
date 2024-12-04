@@ -7,6 +7,8 @@ import {AuthStackNavigator} from '../navigation/AuthNavigator';
 import axios, {AxiosError} from 'axios';
 import ErrorMessage from '../components/ErrorMessage';
 import client from '../api/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAuth} from '../context/AuthProvider';
 interface Props {}
 
 export type errorType = Record<string, string[] | undefined>;
@@ -20,13 +22,15 @@ const SignUp: FC<Props> = () => {
   const [errors, setErrors] = useState<errorType>({});
   const [error, setError] = useState('');
   const navigation = useNavigation<NavigationProp<AuthStackNavigator>>();
+  const {login} = useAuth();
 
   const handleSubmit = async () => {
     setError('');
     setErrors({});
     try {
-      const {data} = await client.post(`/auth/sign-up`, signUpInfo);
-      console.log('api response: ', data);
+      await client.post(`/auth/sign-up`, signUpInfo);
+      // if we got the response back it means we are signed up
+      await login({email: signUpInfo.email, password: signUpInfo.password});
     } catch (error) {
       if (error instanceof AxiosError) {
         // this is the error coming from api

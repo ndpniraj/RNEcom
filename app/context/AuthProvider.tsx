@@ -8,14 +8,20 @@ import {Text, View} from 'react-native';
 
 type Profile = {name: string; email: string};
 
+type SignInInfo = {email: string; password: string};
+
 interface DefaultAuthContext {
   isAuth: boolean;
   profile: Profile | null;
+  logout(): void;
+  login(value: SignInInfo): void;
 }
 
 export const AuthContext = createContext<DefaultAuthContext>({
   isAuth: false,
   profile: null,
+  logout() {},
+  login() {},
 });
 
 interface Props {
@@ -46,8 +52,19 @@ const AuthProvider: FC<Props> = ({children}) => {
     });
   }, []);
 
+  const logout = async () => {
+    await AsyncStorage.removeItem('auth_token');
+    setIsAuth(false);
+  };
+
+  const login = async (value: SignInInfo) => {
+    const {data} = await client.post(`/auth/sign-in`, value);
+    await AsyncStorage.setItem('auth_token', data.token);
+    setIsAuth(true);
+  };
+
   return (
-    <AuthContext.Provider value={{isAuth, profile}}>
+    <AuthContext.Provider value={{isAuth, profile, logout, login}}>
       {busy ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text>Fetching Auth Info...</Text>
