@@ -1,5 +1,5 @@
 import {FC, useEffect, useState} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthStackNavigator} from '../navigation/AuthNavigator';
 import {useAuth} from '../context/AuthProvider';
@@ -38,20 +38,21 @@ const Home: FC<Props> = ({route}) => {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      <Text>Home</Text>
-
-      {products.map(product => {
+    <FlatList
+      data={products}
+      // horizontal
+      renderItem={({item: product}) => {
         return (
-          <View key={product.id}>
+          <View>
             <Text>{product.title}</Text>
             <Text>{product.description}</Text>
             <Text>{product.price.mrp}</Text>
             <Text>{product.price.sale}</Text>
           </View>
         );
-      })}
-    </ScrollView>
+      }}
+      keyExtractor={product => product.id.toString()}
+    />
   );
 };
 
