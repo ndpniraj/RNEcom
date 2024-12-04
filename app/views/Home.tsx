@@ -1,20 +1,57 @@
-import {FC, useContext} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {FC, useEffect, useState} from 'react';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthStackNavigator} from '../navigation/AuthNavigator';
 import {useAuth} from '../context/AuthProvider';
+import client from '../api/client';
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
+type Product = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  poster: string;
+  price: {
+    mrp: number;
+    sale: number;
+  };
+};
+
 const Home: FC<Props> = ({route}) => {
-  const authContext = useAuth();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const {data} = await client.get<{products: Product[]}>(
+          '/product/products',
+        );
+        setProducts(data.products);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text>Home</Text>
-      <Text>Profile {authContext.profile?.name}</Text>
-      <Text>Profile {authContext.profile?.email}</Text>
-    </View>
+
+      {products.map(product => {
+        return (
+          <View key={product.id}>
+            <Text>{product.title}</Text>
+            <Text>{product.description}</Text>
+            <Text>{product.price.mrp}</Text>
+            <Text>{product.price.sale}</Text>
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
 
