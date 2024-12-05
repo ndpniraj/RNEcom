@@ -50,7 +50,6 @@ const Home: FC<Props> = ({route}) => {
       const {data} = await client.get<{products: Product[]}>(
         '/product/products/' + category,
       );
-      console.log(data);
       setProducts(data.products);
     } catch (error) {
       console.log(error);
@@ -84,6 +83,9 @@ const Home: FC<Props> = ({route}) => {
             <Text style={styles.emptyTitle}>Oops There is Nothing...</Text>
           </View>
         }
+        ItemSeparatorComponent={() => {
+          return <View style={styles.separator} />;
+        }}
       />
     </>
   );
@@ -92,7 +94,7 @@ const Home: FC<Props> = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: offset,
-    gap: 20,
+    // gap: 20,
   },
   emptyContainer: {
     paddingTop: 50,
@@ -104,6 +106,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
     opacity: 0.5,
+  },
+  separator: {
+    width: '30%',
+    height: 4,
+    marginHorizontal: 'auto',
+    backgroundColor: 'lightgray',
+    marginVertical: 10,
   },
 });
 

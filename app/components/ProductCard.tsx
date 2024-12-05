@@ -55,7 +55,7 @@ const ProductCard: FC<Props> = ({product}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#dedede',
+    // backgroundColor: '#dedede',
     padding: offset,
     borderRadius: 8,
     gap: 5,
