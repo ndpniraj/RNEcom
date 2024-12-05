@@ -6,6 +6,7 @@ import {useAuth} from '../context/AuthProvider';
 import client from '../api/client';
 import ProductCard, {offset, Product} from '../components/ProductCard';
 import CategoryList from '../components/CategoryList';
+import CategoryBtn from '../components/CategoryBtn';
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
@@ -44,8 +45,10 @@ const Home: FC<Props> = ({route}) => {
     <>
       <CategoryList
         data={categories}
-        renderItem={({item}) => {
-          return <Text>{item}</Text>;
+        renderItem={({item, index}) => {
+          return (
+            <CategoryBtn active={index === 0} label={item} onPress={() => {}} />
+          );
         }}
       />
       <FlatList
