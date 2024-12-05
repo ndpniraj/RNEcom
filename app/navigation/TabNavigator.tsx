@@ -6,11 +6,13 @@ import Profile from '../views/Profile';
 import {createStaticNavigation} from '@react-navigation/native';
 import {Text} from 'react-native';
 import Icon from '@react-native-vector-icons/ant-design';
+import SingleProduct from '../views/SingleProduct';
+import HomeStack from './HomeNavigator';
 
 const Tabs = createBottomTabNavigator({
   screens: {
     Home: {
-      screen: Home,
+      screen: HomeStack,
       options: {
         headerShown: false,
         tabBarIcon({size, color}) {

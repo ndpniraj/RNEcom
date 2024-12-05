@@ -7,10 +7,13 @@ import client from '../api/client';
 import ProductCard, {offset, Product} from '../components/ProductCard';
 import CategoryList from '../components/CategoryList';
 import CategoryBtn from '../components/CategoryBtn';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {HomeNavigatorProps} from '../navigation/HomeNavigator';
 
-type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
+interface Props {}
 
-const Home: FC<Props> = ({route}) => {
+const Home: FC<Props> = () => {
+  const navigation = useNavigation<NavigationProp<HomeNavigatorProps>>();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -75,7 +78,14 @@ const Home: FC<Props> = ({route}) => {
         contentContainerStyle={styles.container}
         // horizontal
         renderItem={({item: product}) => {
-          return <ProductCard product={product} />;
+          return (
+            <ProductCard
+              onPress={() => {
+                navigation.navigate('SingleProduct');
+              }}
+              product={product}
+            />
+          );
         }}
         keyExtractor={product => product.id.toString()}
         ListEmptyComponent={

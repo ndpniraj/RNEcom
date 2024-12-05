@@ -3,22 +3,21 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
 import Home from '../views/Home';
+import SingleProduct from '../views/SingleProduct';
 
-export type AuthStackNavigator = {
-  SignIn: undefined;
-  SignUp: undefined;
+export type HomeNavigatorProps = {
+  Home: undefined;
+  SingleProduct: undefined;
 };
 
-const AuthStack = createStackNavigator<AuthStackNavigator>({
+const HomeStack = createStackNavigator<HomeNavigatorProps>({
   screens: {
-    SignIn,
-    SignUp,
+    Home,
+    SingleProduct,
   },
   screenOptions: {
     headerShown: false,
   },
 });
 
-const AuthNavigator = createStaticNavigation(AuthStack);
-
-export default AuthNavigator;
+export default HomeStack;

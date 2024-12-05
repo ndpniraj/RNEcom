@@ -1,5 +1,12 @@
 import {FC} from 'react';
-import {Image, StyleSheet, Dimensions, Text, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Dimensions,
+  Text,
+  View,
+  Pressable,
+} from 'react-native';
 
 export type Product = {
   id: number;
@@ -15,6 +22,7 @@ export type Product = {
 
 interface Props {
   product: Product;
+  onPress?(): void;
 }
 
 // 1280 * 720 16:9
@@ -31,14 +39,14 @@ const formatPrice = (price: number) => {
 
 export const offset = 10;
 const {width} = Dimensions.get('screen');
-const ProductCard: FC<Props> = ({product}) => {
+const ProductCard: FC<Props> = ({product, onPress}) => {
   const imageWidth = width - offset * 4;
   const imageHeight = (imageWidth * 9) / 16;
 
   const imageStyle = {width: imageWidth, height: imageHeight};
 
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <Image
         source={{uri: product.poster}}
         style={[imageStyle, styles.image]}
@@ -49,7 +57,7 @@ const ProductCard: FC<Props> = ({product}) => {
         <Text style={styles.mrp}>{formatPrice(product.price.mrp)}</Text>
         <Text style={styles.salePrice}>{formatPrice(product.price.sale)}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
