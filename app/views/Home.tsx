@@ -13,6 +13,7 @@ type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 const Home: FC<Props> = ({route}) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,7 +32,7 @@ const Home: FC<Props> = ({route}) => {
         const {data} = await client.get<{categories: string[]}>(
           '/product/categories',
         );
-        setCategories(data.categories);
+        setCategories(['All', ...data.categories]);
       } catch (error) {
         console.log(error);
       }
@@ -41,13 +42,32 @@ const Home: FC<Props> = ({route}) => {
     fetchCategories();
   }, []);
 
+  const handleOnCategorySelect = async (category: string) => {
+    setSelectedCategory(category);
+    // fetch products by category
+    try {
+      if (category === 'All') category = '';
+      const {data} = await client.get<{products: Product[]}>(
+        '/product/products/' + category,
+      );
+      console.log(data);
+      setProducts(data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <CategoryList
         data={categories}
-        renderItem={({item, index}) => {
+        renderItem={({item}) => {
           return (
-            <CategoryBtn active={index === 0} label={item} onPress={() => {}} />
+            <CategoryBtn
+              active={selectedCategory === item}
+              label={item}
+              onPress={() => handleOnCategorySelect(item)}
+            />
           );
         }}
       />
@@ -59,6 +79,11 @@ const Home: FC<Props> = ({route}) => {
           return <ProductCard product={product} />;
         }}
         keyExtractor={product => product.id.toString()}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyTitle}>Oops There is Nothing...</Text>
+          </View>
+        }
       />
     </>
   );
@@ -68,6 +93,17 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: offset,
     gap: 20,
+  },
+  emptyContainer: {
+    paddingTop: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyTitle: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'black',
+    opacity: 0.5,
   },
 });
 
