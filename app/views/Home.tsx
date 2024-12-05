@@ -1,18 +1,11 @@
 import {FC, useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  FlatList,
-  Image,
-  Pressable,
-} from 'react-native';
+import {StyleSheet, FlatList, Pressable, Text, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthStackNavigator} from '../navigation/AuthNavigator';
 import {useAuth} from '../context/AuthProvider';
 import client from '../api/client';
 import ProductCard, {offset, Product} from '../components/ProductCard';
+import CategoryList from '../components/CategoryList';
 
 type Props = StackScreenProps<AuthStackNavigator, 'Home'>;
 
@@ -31,10 +24,11 @@ const Home: FC<Props> = ({route}) => {
         console.log(error);
       }
     };
+
     const fetchCategories = async () => {
       try {
         const {data} = await client.get<{categories: string[]}>(
-          '/product/categories/',
+          '/product/categories',
         );
         setCategories(data.categories);
       } catch (error) {
@@ -47,19 +41,11 @@ const Home: FC<Props> = ({route}) => {
   }, []);
 
   return (
-    <View style={styles.wrapper}>
-      <FlatList
-        style={styles.categoryFlatList}
-        contentContainerStyle={styles.categoryContainer}
-        horizontal
-        showsHorizontalScrollIndicator={false}
+    <>
+      <CategoryList
         data={categories}
         renderItem={({item}) => {
-          return (
-            <Pressable style={styles.categoryBtn}>
-              <Text>{item}</Text>
-            </Pressable>
-          );
+          return <Text>{item}</Text>;
         }}
       />
       <FlatList
@@ -71,33 +57,14 @@ const Home: FC<Props> = ({route}) => {
         }}
         keyExtractor={product => product.id.toString()}
       />
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
   container: {
     paddingHorizontal: offset,
     gap: 20,
-  },
-  categoryContainer: {
-    paddingHorizontal: 10,
-    gap: 10,
-  },
-  categoryFlatList: {
-    paddingVertical: 20,
-  },
-  categoryBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: '#dedede',
-    borderRadius: 20,
-    height: 40,
-    justifyContent: 'center',
-    alignContent: 'center',
   },
 });
 
