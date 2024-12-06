@@ -11,7 +11,7 @@ import HomeStack from './HomeNavigator';
 
 const Tabs = createBottomTabNavigator({
   screens: {
-    Home: {
+    HomeNavigator: {
       screen: HomeStack,
       options: {
         headerShown: false,

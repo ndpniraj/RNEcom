@@ -81,7 +81,7 @@ const Home: FC<Props> = () => {
           return (
             <ProductCard
               onPress={() => {
-                navigation.navigate('SingleProduct');
+                navigation.navigate('SingleProduct', {id: product.id});
               }}
               product={product}
             />

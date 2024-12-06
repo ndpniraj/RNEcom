@@ -7,7 +7,7 @@ import SingleProduct from '../views/SingleProduct';
 
 export type HomeNavigatorProps = {
   Home: undefined;
-  SingleProduct: undefined;
+  SingleProduct: {id: number | string};
 };
 
 const HomeStack = createStackNavigator<HomeNavigatorProps>({
