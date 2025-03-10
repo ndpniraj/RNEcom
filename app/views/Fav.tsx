@@ -1,7 +1,8 @@
 import {FC} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useFavorite} from '../context/FavoriteProvider';
 import {formatPrice} from '../utils/helper';
+import Icon from '@react-native-vector-icons/ant-design';
 
 interface Props {}
 
@@ -24,6 +25,12 @@ const Fav: FC<Props> = () => {
                 <Text numberOfLines={1} style={styles.price}>
                   {formatPrice(item.price.sale)}
                 </Text>
+
+                <Pressable
+                  onPress={() => favContext?.updateFavorite(item)}
+                  style={styles.favButton}>
+                  <Icon name="heart" size={20} color="white" />
+                </Pressable>
               </View>
             );
           }}
@@ -48,7 +55,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: 'gray',
   },
-  productContainer: {flex: 1, padding: 5},
+  productContainer: {flex: 1, padding: 5, position: 'relative'},
+  favButton: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
 });
 
 export default Fav;
