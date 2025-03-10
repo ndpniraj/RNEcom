@@ -60,9 +60,15 @@ const CartProvider: FC<Props> = ({children}) => {
     }
   };
 
-  const removeFromCart = (product: Product) => {};
+  const removeFromCart = (product: Product) => {
+    setCartItems(oldItems => {
+      return oldItems.filter(item => item.product.id !== product.id);
+    });
+  };
 
-  const clearCart = () => {};
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
   const countAllItems = () => {
     return cartItems.reduce((acc, cartItem) => (acc += cartItem.count), 0);

@@ -3,6 +3,7 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useCart} from '../context/CartProvider';
 import {useNavigation} from '@react-navigation/native';
 import {formatPrice} from '../utils/helper';
+import EmptyContainer from '../components/EmptyContainer';
 
 interface Props {}
 
@@ -13,7 +14,7 @@ const Cart: FC<Props> = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    let tabBarBadge = '';
+    let tabBarBadge: string | undefined = undefined;
     if (cartItemsCount)
       tabBarBadge = cartItemsCount <= 9 ? cartItemsCount.toString() : '9+';
     navigation.setOptions({
@@ -24,6 +25,7 @@ const Cart: FC<Props> = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        ListEmptyComponent={<EmptyContainer text="No Items to Render..." />}
         contentContainerStyle={styles.listContainer}
         data={cartContext?.items}
         renderItem={({item}) => {
@@ -72,10 +74,15 @@ const Cart: FC<Props> = () => {
       />
 
       <View style={styles.footerContainer}>
-        <View style={styles.divider} />
-        <Text style={styles.totalText}>
-          Total: {formatPrice(cartContext?.countTotalPrice() || 0)}
-        </Text>
+        <Pressable onPress={cartContext?.clearCart}>
+          <Text style={styles.clearCartText}>Clear Cart</Text>
+        </Pressable>
+        <View style={styles.totalTextWrapper}>
+          <View style={styles.divider} />
+          <Text style={styles.totalText}>
+            Total: {formatPrice(cartContext?.countTotalPrice() || 0)}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -135,11 +142,15 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     // alignSelf: 'flex-end',
+    flexDirection: 'row',
     alignItems: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  totalTextWrapper: {
+    // flex: 1,
   },
   divider: {
     height: 2,
-    width: '50%',
     backgroundColor: 'lightgray',
     marginTop: 10,
   },
@@ -147,6 +158,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     paddingTop: 10,
+  },
+  clearCartText: {
+    fontSize: 18,
+    paddingVertical: 10,
   },
 });
 
