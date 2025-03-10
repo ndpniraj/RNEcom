@@ -91,7 +91,7 @@ const SingleProduct: FC<Props> = ({route}) => {
               <Image
                 source={{uri: item}}
                 style={{width: imageSize, height: imageSize, borderRadius: 8}}
-                resizeMode="center"
+                resizeMode="cover"
               />
             );
           }}
@@ -111,7 +111,7 @@ const SingleProduct: FC<Props> = ({route}) => {
                   borderRadius: 8,
                   transform: [{scale: index === currentSlideIndex ? 1 : 0.5}],
                 }}
-                resizeMode="center"
+                resizeMode="cover"
               />
             );
           })}

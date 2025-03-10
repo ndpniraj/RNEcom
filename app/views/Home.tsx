@@ -13,6 +13,7 @@ import {HomeNavigatorProps} from '../navigation/HomeNavigator';
 interface Props {}
 
 const Home: FC<Props> = () => {
+  const [fetching, setFetching] = useState(true);
   const navigation = useNavigation<NavigationProp<HomeNavigatorProps>>();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
@@ -41,7 +42,7 @@ const Home: FC<Props> = () => {
       }
     };
 
-    fetchProducts();
+    fetchProducts().finally(() => setFetching(false));
     fetchCategories();
   }, []);
 
@@ -58,6 +59,13 @@ const Home: FC<Props> = () => {
       console.log(error);
     }
   };
+
+  if (fetching)
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyTitle}>Fetching Products...</Text>
+      </View>
+    );
 
   return (
     <>
