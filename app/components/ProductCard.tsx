@@ -7,6 +7,8 @@ import {
   View,
   Pressable,
 } from 'react-native';
+import ProductPrice from './ProductPrice';
+import {formatPrice} from '../utils/helper';
 
 export type Product = {
   id: number;
@@ -28,15 +30,6 @@ interface Props {
 // 1280 * 720 16:9
 // 720 * 1280 9:16
 
-const formatPrice = (price: number) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-
-  return formatter.format(price);
-};
-
 export const offset = 10;
 const {width} = Dimensions.get('screen');
 const ProductCard: FC<Props> = ({product, onPress}) => {
@@ -52,11 +45,11 @@ const ProductCard: FC<Props> = ({product, onPress}) => {
         style={[imageStyle, styles.image]}
       />
       <Text style={styles.title}>{product.title}</Text>
-      <View style={styles.priceContainer}>
-        <Text style={styles.priceTitle}>Price: </Text>
-        <Text style={styles.mrp}>{formatPrice(product.price.mrp)}</Text>
-        <Text style={styles.salePrice}>{formatPrice(product.price.sale)}</Text>
-      </View>
+
+      <ProductPrice
+        mrp={formatPrice(product.price.mrp)}
+        sale={formatPrice(product.price.sale)}
+      />
     </Pressable>
   );
 };
@@ -74,22 +67,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '700',
     fontSize: 20,
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  priceTitle: {
-    fontSize: 20,
-  },
-  mrp: {
-    fontStyle: 'italic',
-    textDecorationLine: 'line-through',
-    fontSize: 20,
-  },
-  salePrice: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
 

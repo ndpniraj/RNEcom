@@ -15,6 +15,7 @@ const Tabs = createBottomTabNavigator({
       screen: HomeStack,
       options: {
         headerShown: false,
+        tabBarLabel: 'Home',
         tabBarIcon({size, color}) {
           return <Icon name="home" size={size} color={color} />;
         },

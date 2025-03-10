@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,6 +13,10 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import client from '../api/client';
 import {HomeNavigatorProps} from '../navigation/HomeNavigator';
+import ProductPrice from '../components/ProductPrice';
+import {formatPrice} from '../utils/helper';
+import PrimaryButton from '../components/PrimaryButton';
+import Icon from '@react-native-vector-icons/ant-design';
 
 type Props = StackScreenProps<HomeNavigatorProps, 'SingleProduct'>;
 
@@ -118,17 +123,35 @@ const SingleProduct: FC<Props> = ({route}) => {
         </View>
       </View>
       <Text style={styles.title}>{product.title}</Text>
+      <ProductPrice
+        mrp={formatPrice(product.price.mrp)}
+        sale={formatPrice(product.price.sale)}
+      />
       <Text style={styles.text}>{product.description}</Text>
       <View style={styles.bulletPoints}>
         <Text style={styles.keyTitle}>Key Features</Text>
 
         {product.bulletPoints.map(point => {
           return (
-            <Text style={styles.text} key={point}>
-              {point}
-            </Text>
+            <View style={styles.points} key={point}>
+              <View style={styles.bullet} />
+              <Text style={styles.text}>{point}</Text>
+            </View>
           );
         })}
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <PrimaryButton style={{flex: 1}} title="Buy Now" />
+
+        <View style={styles.actionButtonsWrapper}>
+          <Pressable style={styles.actionButton}>
+            <Icon name="shopping-cart" size={20} color="white" />
+          </Pressable>
+          <Pressable style={styles.actionButton}>
+            <Icon name="heart" size={20} color="white" />
+          </Pressable>
+        </View>
       </View>
     </ScrollView>
   );
@@ -157,6 +180,37 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+  },
+  points: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingLeft: 10,
+  },
+  bullet: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'gray',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  actionButtonsWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  actionButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'gray',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

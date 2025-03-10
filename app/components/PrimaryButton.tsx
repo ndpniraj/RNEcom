@@ -1,19 +1,30 @@
 import {FC} from 'react';
-import {StyleSheet, Pressable, View, Text} from 'react-native';
+import {
+  StyleSheet,
+  Pressable,
+  View,
+  Text,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 
 interface Props {
   title?: string;
+  style?: StyleProp<ViewStyle>;
   onPress?(): void;
 }
 
-const PrimaryButton: FC<Props> = ({title, onPress}) => {
+const PrimaryButton: FC<Props> = ({title, style, onPress}) => {
   return (
     <Pressable
       onPress={onPress}
-      style={({pressed}) => ({
-        ...styles.container,
-        opacity: pressed ? 0.5 : 1,
-      })}>
+      style={({pressed}) => [
+        {
+          ...styles.container,
+          opacity: pressed ? 0.5 : 1,
+        },
+        style,
+      ]}>
       <Text style={styles.title}>{title}</Text>
     </Pressable>
   );
