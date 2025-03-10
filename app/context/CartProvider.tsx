@@ -56,7 +56,7 @@ const CartProvider: FC<Props> = ({children}) => {
   const clearCart = () => {};
 
   const countAllItems = () => {
-    return 0;
+    return cartItems.reduce((acc, cartItem) => (acc += cartItem.count), 0);
   };
 
   const countTotalPrice = () => {
