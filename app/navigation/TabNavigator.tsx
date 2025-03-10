@@ -8,6 +8,7 @@ import {Text} from 'react-native';
 import Icon from '@react-native-vector-icons/ant-design';
 import SingleProduct from '../views/SingleProduct';
 import HomeStack from './HomeNavigator';
+import FavoriteStack from './FavoriteNavigator';
 
 const Tabs = createBottomTabNavigator({
   screens: {
@@ -30,7 +31,7 @@ const Tabs = createBottomTabNavigator({
       },
     },
     Fav: {
-      screen: Fav,
+      screen: FavoriteStack,
       options: {
         tabBarIcon({size, color}) {
           return <Icon name="heart" size={size} color={color} />;

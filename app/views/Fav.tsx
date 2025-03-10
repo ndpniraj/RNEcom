@@ -3,39 +3,42 @@ import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useFavorite} from '../context/FavoriteProvider';
 import {formatPrice} from '../utils/helper';
 import Icon from '@react-native-vector-icons/ant-design';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {FavoriteNavigatorProps} from '../navigation/FavoriteNavigator';
 
 interface Props {}
 
 const Fav: FC<Props> = () => {
   const favContext = useFavorite();
+  const {navigate} = useNavigation<NavigationProp<FavoriteNavigatorProps>>();
   return (
     <View style={styles.container}>
-      {
-        <FlatList
-          numColumns={2}
-          // contentContainerStyle={{gap: 10}}
-          data={favContext?.items}
-          renderItem={({item}) => {
-            return (
-              <View style={styles.productContainer}>
-                <Image source={{uri: item.poster}} style={styles.image} />
-                <Text numberOfLines={1} style={styles.title}>
-                  {item.title}
-                </Text>
-                <Text numberOfLines={1} style={styles.price}>
-                  {formatPrice(item.price.sale)}
-                </Text>
+      <FlatList
+        numColumns={2}
+        // contentContainerStyle={{gap: 10}}
+        data={favContext?.items}
+        renderItem={({item}) => {
+          return (
+            <Pressable
+              onPress={() => navigate('SingleProduct', {id: item.id})}
+              style={styles.productContainer}>
+              <Image source={{uri: item.poster}} style={styles.image} />
+              <Text numberOfLines={1} style={styles.title}>
+                {item.title}
+              </Text>
+              <Text numberOfLines={1} style={styles.price}>
+                {formatPrice(item.price.sale)}
+              </Text>
 
-                <Pressable
-                  onPress={() => favContext?.updateFavorite(item)}
-                  style={styles.favButton}>
-                  <Icon name="heart" size={20} color="white" />
-                </Pressable>
-              </View>
-            );
-          }}
-        />
-      }
+              <Pressable
+                onPress={() => favContext?.updateFavorite(item)}
+                style={styles.favButton}>
+                <Icon name="heart" size={20} color="white" />
+              </Pressable>
+            </Pressable>
+          );
+        }}
+      />
     </View>
   );
 };
