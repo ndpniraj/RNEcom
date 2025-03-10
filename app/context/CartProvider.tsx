@@ -1,7 +1,16 @@
 import {createContext, FC, ReactNode, useContext, useState} from 'react';
-
-type Product = {
+export type Product = {
   id: number;
+  title: string;
+  description: string;
+  category: string;
+  poster: string;
+  price: {
+    mrp: number;
+    sale: number;
+  };
+  images: string[];
+  bulletPoints: string[];
 };
 
 type cartItem = {

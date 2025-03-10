@@ -17,30 +17,16 @@ import ProductPrice from '../components/ProductPrice';
 import {formatPrice} from '../utils/helper';
 import PrimaryButton from '../components/PrimaryButton';
 import Icon from '@react-native-vector-icons/ant-design';
-import {useCart} from '../context/CartProvider';
+import {Product, useCart} from '../context/CartProvider';
 
 type Props = StackScreenProps<HomeNavigatorProps, 'SingleProduct'>;
-
-type ProductDetail = {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  poster: string;
-  price: {
-    mrp: number;
-    sale: number;
-  };
-  images: string[];
-  bulletPoints: string[];
-};
 
 const {width} = Dimensions.get('screen');
 const padding = 10;
 const imageSize = width - 10 * 2;
 const SingleProduct: FC<Props> = ({route}) => {
   const productId = route.params.id;
-  const [product, setProduct] = useState<ProductDetail>();
+  const [product, setProduct] = useState<Product>();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const cartContext = useCart();
 
@@ -62,7 +48,7 @@ const SingleProduct: FC<Props> = ({route}) => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const {data} = await client.get<{product: ProductDetail | null}>(
+        const {data} = await client.get<{product: Product | null}>(
           '/product/detail/' + productId,
         );
         if (data.product) {
