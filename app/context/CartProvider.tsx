@@ -24,7 +24,7 @@ interface ICartContext {
   removeFromCart(product: Product): void;
   clearCart(): void;
   countAllItems(): number;
-  countTotalPrice(): string;
+  countTotalPrice(): number;
 }
 
 const CartContext = createContext<ICartContext | null>(null);
@@ -69,7 +69,11 @@ const CartProvider: FC<Props> = ({children}) => {
   };
 
   const countTotalPrice = () => {
-    return '0';
+    const total = cartItems.reduce(
+      (acc, cartItem) => (acc += cartItem.count * cartItem.product.price.sale),
+      0,
+    );
+    return total;
   };
 
   return (

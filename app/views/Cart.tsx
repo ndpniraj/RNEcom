@@ -50,14 +50,18 @@ const Cart: FC<Props> = () => {
                 </View>
 
                 <View style={styles.quantityControls}>
-                  <Pressable style={styles.actionButton}>
+                  <Pressable
+                    onPress={() => cartContext?.updateCart(item.product, -1)}
+                    style={styles.actionButton}>
                     <Text style={styles.textBase}>-</Text>
                   </Pressable>
 
                   <View style={[styles.actionButton, styles.qtyDisplay]}>
                     <Text style={styles.textBase}>{item.count}</Text>
                   </View>
-                  <Pressable style={styles.actionButton}>
+                  <Pressable
+                    onPress={() => cartContext?.updateCart(item.product, 1)}
+                    style={styles.actionButton}>
                     <Text style={styles.textBase}>+</Text>
                   </Pressable>
                 </View>
@@ -70,7 +74,7 @@ const Cart: FC<Props> = () => {
       <View style={styles.footerContainer}>
         <View style={styles.divider} />
         <Text style={styles.totalText}>
-          Total: {cartContext?.countTotalPrice()}
+          Total: {formatPrice(cartContext?.countTotalPrice() || 0)}
         </Text>
       </View>
     </View>
