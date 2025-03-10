@@ -17,6 +17,7 @@ import ProductPrice from '../components/ProductPrice';
 import {formatPrice} from '../utils/helper';
 import PrimaryButton from '../components/PrimaryButton';
 import Icon from '@react-native-vector-icons/ant-design';
+import {useCart} from '../context/CartProvider';
 
 type Props = StackScreenProps<HomeNavigatorProps, 'SingleProduct'>;
 
@@ -41,6 +42,7 @@ const SingleProduct: FC<Props> = ({route}) => {
   const productId = route.params.id;
   const [product, setProduct] = useState<ProductDetail>();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const cartContext = useCart();
 
   const onViewableItemsChanged = useRef(
     (info: {
@@ -145,7 +147,9 @@ const SingleProduct: FC<Props> = ({route}) => {
         <PrimaryButton style={{flex: 1}} title="Buy Now" />
 
         <View style={styles.actionButtonsWrapper}>
-          <Pressable style={styles.actionButton}>
+          <Pressable
+            onPress={() => cartContext?.updateCart(product, 1)}
+            style={styles.actionButton}>
             <Icon name="shopping-cart" size={20} color="white" />
           </Pressable>
           <Pressable style={styles.actionButton}>
