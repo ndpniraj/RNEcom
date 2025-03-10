@@ -1,6 +1,7 @@
 import {FC, ReactNode} from 'react';
 import AuthProvider from './AuthProvider';
 import CartProvider from './CartProvider';
+import FavProductProvider from './FavoriteProvider';
 
 interface Props {
   children: ReactNode;
@@ -9,7 +10,9 @@ interface Props {
 const Providers: FC<Props> = ({children}) => {
   return (
     <AuthProvider>
-      <CartProvider>{children}</CartProvider>
+      <FavProductProvider>
+        <CartProvider>{children}</CartProvider>
+      </FavProductProvider>
     </AuthProvider>
   );
 };

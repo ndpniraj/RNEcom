@@ -18,6 +18,7 @@ import {formatPrice} from '../utils/helper';
 import PrimaryButton from '../components/PrimaryButton';
 import Icon from '@react-native-vector-icons/ant-design';
 import {Product, useCart} from '../context/CartProvider';
+import {useFavorite} from '../context/FavoriteProvider';
 
 type Props = StackScreenProps<HomeNavigatorProps, 'SingleProduct'>;
 
@@ -29,6 +30,7 @@ const SingleProduct: FC<Props> = ({route}) => {
   const [product, setProduct] = useState<Product>();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const cartContext = useCart();
+  const favContext = useFavorite();
 
   const onViewableItemsChanged = useRef(
     (info: {
@@ -138,7 +140,9 @@ const SingleProduct: FC<Props> = ({route}) => {
             style={styles.actionButton}>
             <Icon name="shopping-cart" size={20} color="white" />
           </Pressable>
-          <Pressable style={styles.actionButton}>
+          <Pressable
+            onPress={() => favContext?.updateFavorite(product)}
+            style={styles.actionButton}>
             <Icon name="heart" size={20} color="white" />
           </Pressable>
         </View>
