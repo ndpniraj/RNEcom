@@ -2,11 +2,20 @@ import {FC} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useAuth} from '../context/AuthProvider';
 import Icon from '@react-native-vector-icons/ant-design';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 interface Props {}
 
 const Profile: FC<Props> = () => {
   const {logout, profile} = useAuth();
+
+  const openImagePicker = async () => {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+    });
+
+    console.log(JSON.stringify(result, null, 2));
+  };
 
   return (
     <View style={styles.container}>
@@ -16,9 +25,7 @@ const Profile: FC<Props> = () => {
           style={styles.bannerImage}
         />
 
-        <Pressable
-          onPress={() => console.log('Opening image picker')}
-          style={styles.profileImageSection}>
+        <Pressable onPress={openImagePicker} style={styles.profileImageSection}>
           {profile?.image ? (
             <View style={styles.profileImageContainer}>
               <Image
