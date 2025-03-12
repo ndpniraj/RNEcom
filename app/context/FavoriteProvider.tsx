@@ -16,6 +16,7 @@ export type Product = {
 interface IFavContext {
   items: Product[];
   updateFavorite(product: Product): void;
+  isFav(product: Product): boolean;
 }
 
 const FavoriteContext = createContext<IFavContext | null>(null);
@@ -41,11 +42,17 @@ const FavProductProvider: FC<Props> = ({children}) => {
     }
   };
 
+  const isFav = (product: Product) => {
+    const foundItem = items.find(item => item.id === product.id);
+    return foundItem ? true : false;
+  };
+
   return (
     <FavoriteContext.Provider
       value={{
         items,
         updateFavorite,
+        isFav,
       }}>
       {children}
     </FavoriteContext.Provider>

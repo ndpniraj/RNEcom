@@ -143,7 +143,11 @@ const SingleProduct: FC<Props> = ({route}) => {
           <Pressable
             onPress={() => favContext?.updateFavorite(product)}
             style={styles.actionButton}>
-            <Icon name="heart" size={20} color="white" />
+            <Icon
+              name="heart"
+              size={20}
+              color={favContext?.isFav(product) ? 'yellow' : 'white'}
+            />
           </Pressable>
         </View>
       </View>
