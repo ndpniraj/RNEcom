@@ -6,7 +6,7 @@ import {Text, View} from 'react-native';
 
 // Context
 
-type Profile = {name: string; email: string};
+type Profile = {id: string; name: string; email: string; image?: string};
 
 type SignInInfo = {email: string; password: string};
 

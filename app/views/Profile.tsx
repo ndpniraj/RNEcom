@@ -1,11 +1,13 @@
 import {FC} from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useAuth} from '../context/AuthProvider';
+import Icon from '@react-native-vector-icons/ant-design';
 
 interface Props {}
 
 const Profile: FC<Props> = () => {
   const {logout, profile} = useAuth();
+
   return (
     <View style={styles.container}>
       <View>
@@ -14,16 +16,24 @@ const Profile: FC<Props> = () => {
           style={styles.bannerImage}
         />
 
-        <View style={styles.profileImageSection}>
-          <View style={styles.profileImageContainer}>
-            <Image
-              source={{
-                uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-              }}
-              style={styles.profileImage}
-            />
-          </View>
-        </View>
+        <Pressable
+          onPress={() => console.log('Opening image picker')}
+          style={styles.profileImageSection}>
+          {profile?.image ? (
+            <View style={styles.profileImageContainer}>
+              <Image
+                source={{
+                  uri: profile?.image,
+                }}
+                style={styles.profileImage}
+              />
+            </View>
+          ) : (
+            <View style={[styles.profileImageContainer, styles.iconContainer]}>
+              <Icon name="user-add" size={40} color="white" />
+            </View>
+          )}
+        </Pressable>
       </View>
 
       <Text style={styles.profileName}>{profile?.name}</Text>
@@ -39,7 +49,7 @@ const styles = StyleSheet.create({
   bannerImage: {
     width: '100%',
     height: 200,
-    resizeMode: 'center',
+    resizeMode: 'cover',
   },
   profileImageSection: {
     borderWidth: 6,
@@ -52,12 +62,17 @@ const styles = StyleSheet.create({
     transform: [{translateX: '-50%'}, {translateY: '50%'}],
     bottom: 0,
     padding: 4,
+    zIndex: 10,
   },
   profileImageContainer: {
     flex: 1,
     borderRadius: 50,
     backgroundColor: 'lightgray',
     overflow: 'hidden',
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   profileImage: {
     flex: 1,
