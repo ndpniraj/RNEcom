@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface Props {}
 
 const Profile: FC<Props> = () => {
-  const {logout, profile} = useAuth();
+  const {logout, updateProfile, profile} = useAuth();
 
   const openImagePicker = async () => {
     try {
@@ -38,7 +38,7 @@ const Profile: FC<Props> = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(data);
+      updateProfile(data.result);
     } catch (error) {
       console.log(error);
     }
