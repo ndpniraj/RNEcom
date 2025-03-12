@@ -3,6 +3,8 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useAuth} from '../context/AuthProvider';
 import Icon from '@react-native-vector-icons/ant-design';
 import {launchImageLibrary} from 'react-native-image-picker';
+import client from '../api/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {}
 
@@ -10,11 +12,36 @@ const Profile: FC<Props> = () => {
   const {logout, profile} = useAuth();
 
   const openImagePicker = async () => {
-    const result = await launchImageLibrary({
-      mediaType: 'photo',
-    });
+    try {
+      const {didCancel, assets} = await launchImageLibrary({
+        mediaType: 'photo',
+      });
 
-    console.log(JSON.stringify(result, null, 2));
+      // console.log(JSON.stringify(result, null, 2));
+
+      if (didCancel || !assets) return;
+
+      const image = assets[0];
+
+      const formData = new FormData();
+      formData.append('image', {
+        name: image.fileName,
+        uri: image.uri,
+        type: image.type,
+        size: image.fileSize,
+      });
+
+      const token = await AsyncStorage.getItem('auth_token');
+      const {data} = await client.post('/auth/profile-image', formData, {
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
